@@ -2,6 +2,9 @@ import { revalidatePath } from "next/cache";
 import connectDb from "../db/connectdb";
 import NutritionModel from "../db/nutritionSchema";
 import { UpdateBtn } from "../buttone/page";
+import Link from "next/link";
+
+
 
 export default async function Info() {
     await connectDb();
@@ -18,7 +21,7 @@ export default async function Info() {
                     const description = formData.get("description");
                     console.log(title, description);
                     await NutritionModel.create({ title, description });
-                    console.log("log");
+
                     revalidatePath("/")
                 }}
                 className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md mb-8"
@@ -75,9 +78,13 @@ export default async function Info() {
                                 key={blog._id}
                                 className="bg-white p-4 rounded-lg shadow-md"
                             >
-                                <h3 className="text-xl font-semibold text-gray-800">
-                                    {blog.title}
-                                </h3>
+                                <Link href={`info/${blog._id}`}>
+
+                                    <h3 className="text-xl font-semibold text-gray-800">
+                                        {blog.title}
+                                    </h3>
+
+                                </Link>
                                 <p className="text-gray-600 mt-2">
                                     {blog.description}
                                 </p>
